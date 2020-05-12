@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Space Between Us</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="{% static 'css/swiper.min.css'%}">
+	<link rel="stylesheet" href="{%static 'css/styles.css' %}">
+
+	<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+
+
+	<!-- Demo styles -->
+	<style>
+
+		.role{
+			display: 'inline-block';
+			  float: left;
+
+		}
+
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+
+		<header class="header">
+			<figure class="logo"><a href="index.html"><img src="{% static 'img/logo.png' %}" alt="Logo"></figure></a>
+			<nav class="menu">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a>Genres</a>
+						<ul>
+							<li><a href="genre.html">Action</a></li>
+							<li><a href="genre.html">Comedy</a></li>
+							<li><a href="genre.html">Drama</a></li>
+							<li><a href="genre.html">Romance</a></li>
+						</ul>
+					</li>
+					<li><a>Year</a>
+						<ul>
+							<li><a href="year.html">2017</a></li>
+							<li><a href="year.html">2016</a></li>
+							<li><a href="year.html">2015</a></li>
+							<li><a href="year.html">2014</a></li>
+						</ul>
+					</li>
+					<li><a>Language</a>
+						<ul>
+							<li><a href="language.html">English</a></li>
+							<li><a href="language.html">German</a></li>
+						</ul>
+					</li>
+					<li><a href="mostwatched.html">Most Watched</a></li>
+					<li class="mobsearch">
+						<form class="mobform">
+							<input type="text" name="s" class="mobsearchfield" placeholder="Search...">
+							<input type="submit" value="" class="mobsearchsubmit">
+						</form>
+					</li>
+				</ul>
+			</nav>
+			<form class="search">
+				<input type="text" name="s" class="searchfield" placeholder="Search...">
+				<input type="submit" value="" class="searchsubmit">
+			</form>
+
+			<div class="toggle"><img src="{% static 'img/menu.svg' %}"></div>
+		</header>
+
+		<main class="content">
+			<div class="single">
+
+				<section class="trailer">
+					<h3>Trailer</h3>
+					<div class="trailer_frame">
+						<iframe width="560" height="315" src="{{movie.trailer}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+				</section>
+
+				<section class="movie">
+					<img src="{{movie.image.url}}">
+					
+					<ul>
+						<li>{{movie.title}}</li>
+						<li>{{movie.description}}</li>
+						
+						{%for genere in movie.generes.all %}
+						{%ifequal genere.category 'D' %}
+						<li><a href="genre.html">Drama</a>
+						{%endifequal%}
+						{%ifequal genere.category 'A' %}
+						<li><a href="genre.html">Action</a>
+						{%endifequal%}
+						{%ifequal genere.category 'R' %}
+						<li><a href="genre.html">Romance</a>
+						{%endifequal%}
+						{%ifequal genere.category 'C' %}
+						<li><a href="genre.html">Drama</a>
+						{%endifequal%}
+						{%endfor%}
+						{%for part in movie.participants.all%}
+						{% ifequal part.role "D" %}
+						<li class="role">Director : <a href="cast.html">{{part.Name}}</a> 
+						{%endifequal%}
+						{%endfor%}
+						{%for part in movie.participants.all%}
+						{% ifequal part.role "A" %}
+						
+						<li class="role" >Actor : <a href="cast.html">{{part.Name}}</a>
+						{%endifequal%}
+						{%endfor%}
+
+						<li>{{movie.views_count}} View{{movie.views_count|pluralize}}</li>
+					</ul>
+				</section>
+				<section class="links">
+					<h3>Links</h3>
+					<ul class="dlinks">
+						<li><a>Download</a></li>
+						{%for link in movie.links.all %}
+						{%ifequal link.type  'D' %}
+						<li><a href="{{link.url}}">Link</a></li>
+						{%endifequal%}
+						{%endfor%}
+
+					</ul>
+					<ul class="dlinks">
+						<li><a>Watch</a></li>
+						{%for link in movie.links.all %}
+						{%ifequal link.type  'W' %}
+						<li><a href="{{link.url}}">Link</a></li>
+						{%endifequal%}
+						{%endfor%}
+
+					</ul>
+				</section>
+
+				<section class="related">
+					<h3>Related movies</h3>
+					{%for movie in related_movies%}
+					<div class="relatemovie">
+						<a href="{%url 'MovieDetail' movie.pk %}"><img src="{{movie.image.url}}"></a>
+						<a href="{%url 'MovieDetail' movie.pk %}"><span class="relatedname">{{movie.title}}</span></a>
+					</div>
+					{%endfor%}
+				</section>
+
+				<section class="comments">
+					<h3>Comments</h3>
+				</section>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<div class="copyright"><p>Copyright &copy 2017 www.focusoncode.com</p></div>
+			<div class="footermenu">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="terms.html">Terms and conditions</a></li>
+				</ul>
+			</div>
+			<div class="tags">
+				<ul>
+					<li>Watch Free Movies Trailers</li>
+					<li>Movie Trailers</li>
+					<li>English Subtitled Movies Trailers</li>
+					<li>Latest Movies Trailers</li>
+					<li>New Movies Trailers</li>
+
+				</ul>
+			</div>
+
+		</footer>
+
+	</div>
+</body>
+</html>
